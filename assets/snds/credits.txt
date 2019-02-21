@@ -1,0 +1,15 @@
+== Main music ==
+    Wretched Destroyer Kevin MacLeod (incompetech.com)
+    Licensed under Creative Commons: By Attribution 3.0 License
+    http://creativecommons.org/licenses/by/3.0/
+== Footsteps ==
+    https://freesound.org/people/swuing/
+== Boing ==
+    https://freesound.org/people/juskiddink/sounds/140867/
+== Coin pop ==
+    https://freesound.org/people/mlestn1/sounds/83237/
+== Coin collect ==
+    https://freesound.org/people/Leszek_Szary/sounds/171583/
+== Various grunting sounds (jump, hurt, etc) ==
+    https://freesound.org/people/Sruddi1/sounds/34875/
+    Modified by @griffpatch , found here: https://scratch.mit.edu/projects/10118230/
