@@ -561,21 +561,30 @@ BeginningJS = {
                 "x": 0,
                 "y": 0
             },
-            "keys": [],
-            "lookup": {
+            "keys": {
+                "isDown": function(keyCode) {
+                    if (this.internal.game.input.keys.keys[keyCode]) {
+                        return true
+                    }
+                    return false
+                },
                 "keys": {},
-                "lookup": {
-                    "left": 37,
-                    "right": 39,
-                    "up": 38,
-                    "down": 40,
-                    "space": 32,
-                    "w": 87,
-                    "a": 65,
-                    "s": 91,
-                    "d": 68
+                "internal": {
+                    "game": game
                 }
-            }
+            },
+            "lookup": {
+                "left": 37,
+                "right": 39,
+                "up": 38,
+                "down": 40,
+                "space": 32,
+                "w": 87,
+                "a": 65,
+                "s": 91,
+                "d": 68
+            },
+            "joysticks": {}
         }
 
         game.internal.collision.qtree.methods.addRect(game, 0, 0, qTreeCanvas.width / 2, qTreeCanvas.height / 2)
@@ -657,12 +666,12 @@ BeginningJS = {
                                     "description": "The src for the joystick."
                                 },
                                 "x": {
-                                    "default": game.width - 50,
+                                    "default": game.width - 100,
                                     "types": ["number"],
                                     "description": "The x position of the circle."
                                 },
                                 "y": {
-                                    "default": game.height - 50,
+                                    "default": game.height - 100,
                                     "types": ["number"],
                                     "description": "The y position of the circle."
                                 },
@@ -678,11 +687,13 @@ BeginningJS = {
                                 }
                             })
 
-                            if (Game.internal.IDIndex[options.id] != null) {
+                            if (game.internal.IDIndex[options.id] != null) {
                                 console.error("Oops, looks like you've tried to use an ID for a joystick that has already been used. Try and think of something else.")
                                 console.log("You used " + options.id + ".")
                                 debugger
                             }
+
+                            game.input.joysticks[options.id] = []
 
 
                             // Circle
@@ -705,22 +716,20 @@ BeginningJS = {
                                 "img": "Internal.GUI.joystickCircle",
                                 "vars": {
                                     "joystickID": joystickID,
-                                    "ready": false
+                                    "ready": false,
+                                    "id": options.id
                                 },
                                 "scripts": {
                                     "init": [
                                         {
-                                            "code": function(gameRef, me) {
-                                                me.vars.joystick = BeginningJS.methods.get.sprite(me.vars.joystickID)
-                                                console.log(me.vars.joystick)
-                                            },
+                                            "code": function(gameRef, me) {},
                                             "stateToRun": game.state
                                         }
                                     ],
                                     "main": [
                                         {
                                             "code": function(gameRef, me) {
-                                                if (gameRef.internal.assets.imgs["Internal.GUI.joystickCircle"].internal.loaded) {
+                                                if (gameRef.internal.assets.imgs["Internal.GUI.joystick"].internal.loaded) {
                                                     if (! me.vars.ready) {
                                                         me.visible = true
                                                         me.vars.ready = true
@@ -729,13 +738,11 @@ BeginningJS = {
 
                                                 if (me.vars.ready) {
                                                     me.bringToFront()
-
-                                                    if (me.touching.mouse.AABB()) {
-                                                        me.x = me.last.collision.x
-                                                        me.y = me.last.collision.y
-
-                                                        me.x = Math.max(Math.min(me.x, me.vars.joystick.x + (me.vars.joystick.width / 2)), me.vars.joystick.x - (me.vars.joystick.width / 2))
-                                                        me.y = Math.max(Math.min(me.y, me.vars.joystick.y + (me.vars.joystick.height / 2)), me.vars.joystick.y - (me.vars.joystick.height / 2))
+                                                    if (BeginningJS.device.is.touchscreen) {
+                                                        me.visible = true
+                                                    }
+                                                    else {
+                                                        me.visible = false
                                                     }
                                                 }
                                             },
@@ -785,13 +792,15 @@ BeginningJS = {
                                 "img": "Internal.GUI.joystick",
                                 "vars": {
                                     "circleID": circleID,
-                                    "ready": false
+                                    "ready": false,
+                                    "dragging": false,
+                                    "id": options.id
                                 },
                                 "scripts": {
                                     "init": [
                                         {
                                             "code": function(gameRef, me) {
-                                                me.vars.circle = BeginningJS.methods.get.sprite(me.vars.circleID)
+
                                             },
                                             "stateToRun": game.state
                                         }
@@ -801,6 +810,8 @@ BeginningJS = {
                                             "code": function(gameRef, me) {
                                                 if (gameRef.internal.assets.imgs["Internal.GUI.joystick"].internal.loaded) {
                                                     if (! me.vars.ready) {
+                                                        me.vars.circle = BeginningJS.methods.get.sprite(me.vars.circleID)
+
                                                         me.visible = true
                                                         me.vars.ready = true
                                                     }
@@ -809,6 +820,65 @@ BeginningJS = {
                                                 if (me.vars.ready) {
                                                     me.bringToFront()
 
+                                                    if (gameRef.input.mouse.down) {
+                                                        if (me.touching.mouse.AABB()) {
+                                                            me.vars.dragging = true
+                                                        }
+                                                    }
+                                                    else {
+                                                        me.vars.dragging = false
+                                                        me.x = me.vars.circle.x
+                                                        me.y = me.vars.circle.y
+
+                                                        gameRef.input.joysticks[me.vars.id] = []
+                                                    }
+                                                    if (BeginningJS.device.is.touchscreen) {
+                                                        me.visible = true
+                                                    }
+                                                    else {
+                                                        me.visible = false
+                                                        return
+                                                    }
+                                                    if (me.vars.dragging) {
+                                                        if (me.touching.mouse.AABB()) {
+                                                            me.x = me.last.collision.x
+                                                            me.y = me.last.collision.y
+                                                        }
+                                                        else {
+                                                            me.x = gameRef.input.mouse.x
+                                                            me.y = gameRef.input.mouse.y
+                                                        }
+                                                        //me.x = Math.max(Math.min(me.x, me.vars.circle.x + (me.vars.circle.width / 2)), me.vars.circle.x - (me.vars.circle.width / 2))
+                                                        //me.y = Math.max(Math.min(me.y, me.vars.circle.y + (me.vars.circle.height / 2)), me.vars.circle.y - (me.vars.circle.height / 2))
+
+                                                        var distance = Math.abs(me.x - me.vars.circle.x) + Math.abs(me.y - me.vars.circle.y)
+                                                        if (distance > me.vars.circle.width / 2) {
+                                                            var direction = BeginningJS.methods.maths.getDirection(me.vars.circle.x, me.vars.circle.y, me.x, me.y) // TODO
+
+                                                            me.x = me.vars.circle.x
+                                                            me.y = me.vars.circle.y
+
+                                                            me.move(me.vars.circle.width / 2, direction)
+                                                        }
+
+                                                        var offsetX = me.x - me.vars.circle.x
+                                                        var offsetY = me.y - me.vars.circle.y
+
+                                                        var inputs = []
+                                                        if (offsetX < -(me.width / 2)) {
+                                                            inputs.push("left")
+                                                        }
+                                                        if (offsetX > me.width / 2) {
+                                                            inputs.push("right")
+                                                        }
+                                                        if (offsetY < -(me.height / 2)) {
+                                                            inputs.push("up")
+                                                        }
+                                                        if (offsetY > me.height / 2) {
+                                                            inputs.push("down")
+                                                        }
+                                                        gameRef.input.joysticks[me.vars.id] = inputs
+                                                    }
                                                 }
                                             },
                                             "stateToRun": game.state
@@ -930,6 +1000,7 @@ BeginningJS = {
             BeginningJS.internal.autoplaySounds()
 
             game.input.mouse.down = true
+            context.preventDefault()
         }, false)
         game.internal.renderer.canvas.addEventListener("touchmove", function(context) {
             var game = context.target.game
@@ -964,6 +1035,7 @@ BeginningJS = {
             BeginningJS.internal.autoplaySounds()
 
             game.input.mouse.down = true
+            context.preventDefault()
         }, false)
         game.internal.renderer.canvas.addEventListener("touchend", function(context) {
             var game = context.target.game
@@ -974,12 +1046,13 @@ BeginningJS = {
             BeginningJS.internal.autoplaySounds()
 
             game.input.mouse.down = false
+            context.preventDefault()
         }, false)
         document.addEventListener("keydown", function(context) {
             var i = 0
             for (i in BeginningJS.internal.games) {
                 var game = BeginningJS.internal.games[i]
-                game.input.keys[context.keyCode] = true
+                game.input.keys.keys[context.keyCode] = true
             }
 
             BeginningJS.internal.autoplaySounds()
@@ -988,7 +1061,7 @@ BeginningJS = {
             var i = 0
             for (i in BeginningJS.internal.games) {
                 var game = BeginningJS.internal.games[i]
-                game.input.keys[context.keyCode] = false
+                game.input.keys.keys[context.keyCode] = false
             }
         }, false)
 
@@ -2152,6 +2225,14 @@ BeginningJS = {
                     }
                 }
             }
+            sprite.move = function(distance, angle) { // TODO: add rotation
+                var me = this
+
+                var rad = BeginningJS.methods.maths.degToRad(angle)
+
+                me.x += Math.sin(rad) * distance
+                me.y += Math.cos(rad) * distance
+            }
             sprite.clone = function(inputCloneData) {
                 var spriteWas = BeginningJS.internal.current.sprite
                 var gameWas = BeginningJS.internal.current.game
@@ -2569,10 +2650,33 @@ BeginningJS = {
                             "height": BeginningJS.internal.render.scale.height(sprite.height, renderer, canvas)
                         }
                         if (sprite.visible) {
+                            var flip = []
+                            //var flipDimentions = []
+                            if (scaled.width > 0) {
+                                flip.push(1)
+                                //flipDimentions.push(0)
+                            }
+                            else {
+                                flip.push(-1)
+                                //flipDimentions.push(scaled.width)
+                            }
+                            if (scaled.height > 0) {
+                                flip.push(1)
+                                //flipDimentions.push(0)
+                            }
+                            else {
+                                flip.push(-1)
+                                //flipDimentions.push(scaled.height)
+                            }
+                            ctx.save()
+                            ctx.scale(flip[0], flip[1])
+
+
                             ctx.globalAlpha = 1
                             if (sprite.type == "sprite") {
                                 ctx.globalAlpha = sprite.alpha
-                                ctx.drawImage(game.internal.assets.imgs[sprite.img].img, scaled.x, scaled.y, scaled.width, scaled.height)
+
+                                ctx.drawImage(game.internal.assets.imgs[sprite.img].img, scaled.x * flip[0], scaled.y * flip[1], scaled.width * flip[0], scaled.height * flip[1])
                             }
                             else {
                                 if (sprite.type == "canvas") {
@@ -2580,9 +2684,10 @@ BeginningJS = {
                                         sprite.canvas.width = sprite.width
                                         sprite.canvas.height = sprite.height
                                     }
-                                    ctx.drawImage(sprite.canvas, scaled.x, scaled.y, scaled.width, scaled.height)
+                                    ctx.drawImage(sprite.canvas, scaled.x * flip[0], scaled.y * flip[1], scaled.width, scaled.height)
                                 }
                             }
+                            ctx.restore()
                         }
                     }
                 }
@@ -2704,6 +2809,19 @@ BeginningJS = {
                 game.internal.soundsToPlay.push(id)
             }
         },
+        "maths": {
+            "radToDeg": function(rad) {
+                return (rad * 180) / Math.PI
+            },
+            "degToRad": function(deg) {
+                return deg * (Math.PI / 180)
+            },
+            "getDirection": function(x1, y1, x2, y2) {
+                // gist.github.com/conorbuck/2606166
+
+                return BeginningJS.methods.maths.radToDeg(Math.atan2(y2 - y1, x2 - x1))
+            }
+        }
     },
     "config": {
         "flags": {
@@ -2713,7 +2831,7 @@ BeginningJS = {
     },
     "device": {
         "is": {
-            "touchscreen": document.ontouchstart === undefined
+            "touchscreen": document.ontouchstart === null
         }
     }
 }

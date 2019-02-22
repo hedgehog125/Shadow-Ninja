@@ -195,8 +195,8 @@ Game = BeginningJS.init({
                         ],
                         "main": [
                             function(gameRef, me) {
-                                me.x = me.vars.x - Game.vars.camera.x
-                                me.y = me.vars.y - Game.vars.camera.y
+                                me.x = Math.round(me.vars.x - Game.vars.camera.x)
+                                me.y = Math.round(me.vars.y - Game.vars.camera.y)
 
                                 if (me.vars.tilesRendered && me.vars.tiles.length == 0) {
                                     /*
@@ -423,7 +423,7 @@ Game = BeginningJS.init({
                                 }
 
                                 Game.methods.gui.create.controls.joystick({
-                                    "id": "Joystick1"
+                                    "id": "Controller"
                                 })
                             },
                             "stateToRun": "game"
@@ -474,18 +474,24 @@ Game = BeginningJS.init({
 
                                 var tiles = BeginningJS.methods.get.sprite("Tiles").vars.rendered
 
-                                var tile = tiles[[Math.round(me.vars.x), Math.ceil(me.vars.y + 1.5)].toString()]
+                                var xTile = Math.round(me.vars.x)
+                                var yTile = Math.floor(((me.vars.y * BeginningJS.methods.get.sprite("Tiles").height) + (me.height / 3)) / BeginningJS.methods.get.sprite("Tiles").height)
+                                var onGround = false
+
+                                var tile = tiles[[xTile, yTile + 1].toString()]
                                 if (tile == null) {
-                                    me.vars.vel.y += 0.1
+                                    me.vars.vel.y += 0.4
                                 }
                                 else {
-                                    if (tile.tile == 6 || tile.tile == 1) {
-                                        me.vars.vel.y += 0.1
+                                    if (tile.tile == 6 || tile.tile == 1) { // Falling
+                                        me.vars.vel.y += 0.4
+                                        var onGround = false
                                     }
                                     else {
-                                        if (me.vars.vel.y < 0) {
+                                        if (me.vars.vel.y > 0) {
                                             me.vars.vel.y = 0
                                         }
+                                        var onGround = true
                                     }
                                 }
                                 me.vars.x += (me.vars.vel.x / 10)
@@ -493,6 +499,87 @@ Game = BeginningJS.init({
 
                                 me.vars.vel.x *= 0.9
                                 me.vars.vel.y *= 0.9
+
+                                // Controls
+
+                                var inputs = {}
+                                if (Game.input.joysticks.Controller.includes("left")) {
+                                    inputs.left = true
+                                }
+                                if (Game.input.joysticks.Controller.includes("right")) {
+                                    inputs.right = true
+                                }
+                                if (Game.input.joysticks.Controller.includes("up")) {
+                                    inputs.up = true
+                                }
+                                if (Game.input.joysticks.Controller.includes("down")) {
+                                    inputs.down = true
+                                }
+
+                                if (Game.input.keys.isDown(Game.input.lookup.a)) {
+                                    inputs.left = true
+                                }
+                                if (Game.input.keys.isDown(Game.input.lookup.d)) {
+                                    inputs.right = true
+                                }
+                                if (Game.input.keys.isDown(Game.input.lookup.w)) {
+                                    inputs.up = true
+                                }
+                                if (Game.input.keys.isDown(Game.input.lookup.s)) {
+                                    inputs.down = true
+                                }
+
+
+                                if (inputs.left) {
+                                    me.vars.vel.x -= 0.3
+
+                                    me.width = -Math.abs(me.width)
+                                }
+                                if (inputs.right) {
+                                    me.vars.vel.x += 0.3
+
+                                    me.width = Math.abs(me.width)
+                                }
+                                if (onGround) {
+                                    if (inputs.up) {
+                                        me.vars.vel.y -= 3
+                                    }
+                                }
+
+                                // Camera
+
+                                var cameraSpeed = 5
+                                var cameraYOffset = 50
+
+                                if (Math.abs(me.x - (Game.width / 2)) > 0) {
+                                    if (Math.floor(Math.abs(me.x - (Game.width / 2))) >= 5) {
+                                        if (me.x > Game.width / 2) {
+                                            Game.vars.camera.x += Math.ceil((me.x - (Game.width / 2)) / cameraSpeed)
+                                        }
+                                        else {
+                                            Game.vars.camera.x += Math.floor((me.x - (Game.width / 2)) / cameraSpeed)
+                                        }
+                                    }
+                                    else {
+                                        Game.vars.camera.x += me.x - (Game.width / 2)
+                                    }
+                                }
+                                if (Math.abs(me.y - ((Game.height / 2) - cameraYOffset)) > 0) {
+                                    if (Math.floor(Math.abs(me.y - ((Game.height / 2) + cameraYOffset))) >= 5) {
+                                        if (me.y > ((Game.height / 2) - cameraYOffset)) {
+                                            Game.vars.camera.y += Math.ceil((me.y - ((Game.height / 2) + cameraYOffset)) / cameraSpeed)
+                                        }
+                                        else {
+                                            Game.vars.camera.y += Math.floor((me.y - ((Game.height / 2) + cameraYOffset)) / cameraSpeed)
+                                        }
+                                    }
+                                    else {
+                                        Game.vars.camera.y += me.y - ((Game.height / 2) + cameraYOffset)
+                                    }
+                                }
+
+                                me.x = Math.round(me.x)
+                                me.y = Math.round(me.y)
                             },
                             "stateToRun": "game"
                         }
