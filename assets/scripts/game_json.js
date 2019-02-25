@@ -60,10 +60,17 @@ Game = BeginningJS.init({
                     "id": "Tile_dark_grass",
                     "src": "assets/imgs/tiles/dark/Grass.png"
                 },
+
+                // Ninja misc
                 {
                     "id": "Ninja_Idle",
                     "src": "assets/imgs/ninja/ninja.png"
                 },
+                {
+                    "id": "Ninja_Cling",
+                    "src": "assets/imgs/ninja/cling.png"
+                },
+
                 // Take out
                 {
                     "id": "Ninja_Takeout_0",
@@ -139,6 +146,60 @@ Game = BeginningJS.init({
                 {
                     "id": "Ninja_Putaway_8",
                     "src": "assets/imgs/ninja/put_away/putaway_8.png"
+                },
+
+                // Walk
+
+                {
+                    "id": "Ninja_Walk_0",
+                    "src": "assets/imgs/ninja/walk/walk_0.png"
+                },
+                {
+                    "id": "Ninja_Walk_1",
+                    "src": "assets/imgs/ninja/walk/walk_1.png"
+                },
+                {
+                    "id": "Ninja_Walk_2",
+                    "src": "assets/imgs/ninja/walk/walk_2.png"
+                },
+                {
+                    "id": "Ninja_Walk_3",
+                    "src": "assets/imgs/ninja/walk/walk_3.png"
+                },
+                {
+                    "id": "Ninja_Walk_4",
+                    "src": "assets/imgs/ninja/walk/walk_4.png"
+                },
+                {
+                    "id": "Ninja_Walk_5",
+                    "src": "assets/imgs/ninja/walk/walk_5.png"
+                },
+
+                // Duck
+
+                {
+                    "id": "Ninja_Duck_0",
+                    "src": "assets/imgs/ninja/duck/duck_0.png"
+                },
+                {
+                    "id": "Ninja_Duck_1",
+                    "src": "assets/imgs/ninja/duck/duck_1.png"
+                },
+                {
+                    "id": "Ninja_Duck_2",
+                    "src": "assets/imgs/ninja/duck/duck_2.png"
+                },
+                {
+                    "id": "Ninja_Duck_3",
+                    "src": "assets/imgs/ninja/duck/duck_3.png"
+                },
+                {
+                    "id": "Ninja_Duck_4",
+                    "src": "assets/imgs/ninja/duck/duck_4.png"
+                },
+                {
+                    "id": "Ninja_Duck_5",
+                    "src": "assets/imgs/ninja/duck/duck_5.png"
                 }
             ],
             "snds": [
@@ -199,52 +260,6 @@ Game = BeginningJS.init({
                                 me.y = Math.round(me.vars.y - Game.vars.camera.y)
 
                                 if (me.vars.tilesRendered && me.vars.tiles.length == 0) {
-                                    /*
-                                    if (! me.vars.done) {
-                                        // Shade it
-                                        var data = me.ctx.getImageData(0, 0, me.width, me.height)
-
-                                        var lights = [
-                                            {
-                                                "x": 800,
-                                                "y": 0,
-                                                "brightness": 20
-                                            }
-                                        ]
-
-                                        var i = 0
-                                        while (i < data.data.length) {
-                                            var x = (i / 4) % data.width
-                                            var y = Math.floor((i / 4) / data.width)
-
-                                            var brightness = 0
-
-                                            var c = 0
-                                            for (c in lights) {
-                                                var light = lights[c]
-                                                brightness = brightness + Math.max(light.brightness - ((Math.abs(light.x - x) + Math.abs(light.y - y)) / 80), 0)
-                                            }
-                                            if (brightness != 0 && brightness != 1) {
-                                                //console.log(brightness, data.data[i] * brightness, data.data[i])
-                                                //debugger
-                                            }
-                                            brightness = Math.max(brightness, 0)
-                                            if (brightness != 0 && brightness != 1) {
-                                                //console.log(brightness, data.data[i] * brightness, data.data[i])
-                                                //debugger
-                                            }
-
-                                            data.data[i] = Math.round(data.data[i] * Math.min(brightness / 10, 1))
-                                            data.data[i + 1] = Math.round(data.data[i + 1] * Math.min(brightness / 10, 1))
-                                            data.data[i + 2] = Math.round(data.data[i + 2] * Math.min(brightness / 10, 1))
-
-                                            i = i + 4
-                                        }
-
-                                        me.ctx.putImageData(data, 0, 0)
-                                        me.vars.done = true
-                                    }
-                                    */
                                     me.vars.done = true
                                 }
                                 else {
@@ -289,7 +304,7 @@ Game = BeginningJS.init({
                             "layer": 0
                         },
                         "-25,11": {
-                            "width": 75,
+                            "width": 125,
                             "height": 3,
                             "tile": 2,
                             "layer": 0
@@ -297,6 +312,36 @@ Game = BeginningJS.init({
                         "-25,14": {
                             "width": 75,
                             "height": 41,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "-10,8": {
+                            "width": 20,
+                            "height": 1,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "-1,-4": {
+                            "width": 1,
+                            "height": 10,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "2,-4": {
+                            "width": 1,
+                            "height": 10,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "2,-5": {
+                            "width": 5,
+                            "height": 1,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "-10,-5": {
+                            "width": 10,
+                            "height": 1,
                             "tile": 3,
                             "layer": 0
                         }
@@ -452,7 +497,17 @@ Game = BeginningJS.init({
                     "vel": {
                         "x": 0,
                         "y": 0
-                    }
+                    },
+                    "clinging": false,
+                    "sliding": false,
+                    "clingingReady": false,
+                    "jump": false,
+                    "jumpTime": 0,
+                    "jumpDir": 0,
+                    "walkFrame": 0,
+                    "duckFrame": -1,
+                    "duckDir": 0,
+                    "duckTick": 0
                 },
                 "scripts": {
                     "init": [
@@ -475,29 +530,170 @@ Game = BeginningJS.init({
                                 var tiles = BeginningJS.methods.get.sprite("Tiles").vars.rendered
 
                                 var xTile = Math.round(me.vars.x)
-                                var yTile = Math.floor(((me.vars.y * BeginningJS.methods.get.sprite("Tiles").height) + (me.height / 3)) / BeginningJS.methods.get.sprite("Tiles").height)
+                                var yTile = Math.round(me.vars.y)
                                 var onGround = false
 
-                                var tile = tiles[[xTile, yTile + 1].toString()]
-                                if (tile == null) {
-                                    me.vars.vel.y += 0.4
-                                }
-                                else {
-                                    if (tile.tile == 6 || tile.tile == 1) { // Falling
+                                if (! me.vars.clinging) {
+                                    var tile = tiles[[xTile, yTile + 1].toString()]
+                                    if (tile == null) {
                                         me.vars.vel.y += 0.4
-                                        var onGround = false
                                     }
                                     else {
-                                        if (me.vars.vel.y > 0) {
-                                            me.vars.vel.y = 0
+                                        if (tile.tile == 6 || tile.tile == 1) { // Falling
+                                            me.vars.vel.y += 0.4
+                                            var onGround = false
                                         }
-                                        var onGround = true
+                                        else {
+                                            if (me.vars.vel.y > 0) {
+                                                me.vars.vel.y = 0
+                                            }
+                                            var onGround = true
+                                        }
                                     }
                                 }
+                                var xWas = me.vars.x
+                                var yWas = me.vars.y
+
                                 me.vars.x += (me.vars.vel.x / 10)
                                 me.vars.y += (me.vars.vel.y / 10)
 
-                                me.vars.vel.x *= 0.9
+                                var canMove = true
+                                var cling = false
+                                var sliding = false
+
+                                var xTile = Math.round(me.vars.x - 0.5)
+                                var yTile = Math.round(me.vars.y + 0.5)
+
+                                var tile = tiles[[xTile, yTile].toString()]
+                                if (tile != null) {
+                                    if (! (tile.tile == 6 || tile.tile == 1)) {
+                                        canMove = false
+                                    }
+                                }
+                                var tile = tiles[[xTile, yTile - 1].toString()]
+                                if (tile != null) {
+                                    if (! (tile.tile == 6 || tile.tile == 1)) {
+                                        canMove = false
+                                    }
+                                }
+
+                                var xTile = Math.round(me.vars.x + 0.5)
+
+                                var tile = tiles[[xTile, yTile].toString()]
+                                if (tile != null) {
+                                    if (! (tile.tile == 6 || tile.tile == 1)) {
+                                        canMove = false
+                                    }
+                                }
+                                var tile = tiles[[xTile, yTile - 1].toString()]
+                                if (tile != null) {
+                                    if (! (tile.tile == 6 || tile.tile == 1)) {
+                                        canMove = false
+                                    }
+                                }
+
+
+                                var xTile = Math.round(me.vars.x - 0.5)
+                                var yTile = Math.round(me.vars.y + 0.5)
+                                var tile = tiles[[xTile, yTile].toString()]
+
+                                if (me.vars.vel.x < 0) {
+                                    if (tile != null) {
+                                        if (! (tile.tile == 6 || tile.tile == 1)) {
+                                            cling = true
+                                        }
+                                    }
+                                    var tile = tiles[[xTile, yTile - 1].toString()]
+
+                                    if (tile != null) {
+                                        if (! (tile.tile == 6 || tile.tile == 1)) {
+                                            sliding = true
+                                        }
+                                    }
+                                }
+
+                                var xTile = Math.round(me.vars.x + 0.5)
+                                var tile = tiles[[xTile, yTile].toString()]
+
+                                if (me.vars.vel.x > 0) {
+                                    if (tile != null) {
+                                        if (! (tile.tile == 6 || tile.tile == 1)) {
+                                            cling = true
+                                        }
+                                    }
+                                    var tile = tiles[[xTile, yTile - 1].toString()]
+
+                                    if (tile != null) {
+                                        if (! (tile.tile == 6 || tile.tile == 1)) {
+                                            sliding = true
+                                        }
+                                    }
+                                }
+
+
+
+                                if (! canMove) {
+                                    me.vars.x = xWas
+                                    me.vars.vel.x = 0
+                                }
+
+                                if (me.vars.vel.y < 0) {
+                                    var canMove = true
+
+                                    var xTile = Math.round(me.vars.x - 0.5)
+                                    var yTile = Math.round(me.vars.y - 0.5)
+
+                                    var tile = tiles[[xTile, yTile].toString()]
+                                    if (tile != null) {
+                                        if (! (tile.tile == 6 || tile.tile == 1)) {
+                                            canMove = false
+                                        }
+                                    }
+                                    if (! canMove) {
+                                        me.vars.y = yWas
+                                        me.vars.vel.y = 0
+                                    }
+
+                                    var xTile = Math.round(me.vars.x + 0.5)
+
+                                    var tile = tiles[[xTile, yTile].toString()]
+                                    if (tile != null) {
+                                        if (! (tile.tile == 6 || tile.tile == 1)) {
+                                            canMove = false
+                                        }
+                                    }
+                                    if (! canMove) {
+                                        me.vars.y = yWas
+                                        me.vars.vel.y = 0
+                                    }
+                                }
+
+                                if (me.vars.vel.y > 0) { // Falling
+                                    if (cling) {
+                                        var direction = 1
+                                        if (me.width < 0) {
+                                            direction = -1
+                                        }
+                                        me.switch("Ninja_Cling")
+                                        me.setScale(3)
+                                        me.width *= direction
+                                        me.vars.clinging = true
+                                        me.vars.clingingReady = false
+                                        me.vars.sliding = sliding
+
+                                        me.vars.vel.x = 0
+                                        if (! me.vars.sliding) {
+                                            me.vars.vel.y = 0
+                                        }
+                                    }
+                                }
+
+                                if (onGround) {
+                                    me.vars.vel.x *= 0.9
+                                }
+                                else {
+                                    me.vars.vel.x *= 0.95
+                                }
                                 me.vars.vel.y *= 0.9
 
                                 // Controls
@@ -506,14 +702,26 @@ Game = BeginningJS.init({
                                 if (Game.input.joysticks.Controller.includes("left")) {
                                     inputs.left = true
                                 }
+                                if (Game.input.joysticks.Controller.includes("~left")) {
+                                    inputs.leftSmall = true
+                                }
                                 if (Game.input.joysticks.Controller.includes("right")) {
                                     inputs.right = true
+                                }
+                                if (Game.input.joysticks.Controller.includes("~right")) {
+                                    inputs.rightSmall = true
                                 }
                                 if (Game.input.joysticks.Controller.includes("up")) {
                                     inputs.up = true
                                 }
+                                if (Game.input.joysticks.Controller.includes("~up")) {
+                                    inputs.upSmall = true
+                                }
                                 if (Game.input.joysticks.Controller.includes("down")) {
                                     inputs.down = true
+                                }
+                                if (Game.input.joysticks.Controller.includes("~down")) {
+                                    inputs.downSmall = true
                                 }
 
                                 if (Game.input.keys.isDown(Game.input.lookup.a)) {
@@ -529,30 +737,318 @@ Game = BeginningJS.init({
                                     inputs.down = true
                                 }
 
+                                if (me.vars.clinging) {
+                                    if (me.vars.sliding) {
+                                        var cling = false
 
-                                if (inputs.left) {
-                                    me.vars.vel.x -= 0.3
+                                        var xTile = Math.round(me.vars.x - 0.6)
+                                        var yTile = Math.round(me.vars.y + 0.5)
+                                        var tile = tiles[[xTile, yTile - 1].toString()]
 
-                                    me.width = -Math.abs(me.width)
+                                        if (tile != null) {
+                                            if (! (tile.tile == 6 || tile.tile == 1)) {
+                                                cling = true
+                                            }
+                                        }
+
+
+                                        var xTile = Math.round(me.vars.x + 0.6)
+                                        var tile = tiles[[xTile, yTile - 1].toString()]
+
+                                        if (tile != null) {
+                                            if (! (tile.tile == 6 || tile.tile == 1)) {
+                                                cling = true
+                                            }
+                                        }
+
+                                        if (cling) {
+                                            me.vars.vel.y += 0.01
+                                        }
+                                        else {
+                                            me.vars.clinging = false
+                                            var direction = 1
+                                            if (me.width < 0) {
+                                                direction = -1
+                                            }
+                                            me.switch("Ninja_Idle")
+                                            me.setScale(3)
+                                            me.width *= direction
+                                        }
+                                    }
+                                    if (! me.vars.jump) {
+                                        var keyPressed = false
+                                        if (inputs.left && me.width > 0) {
+                                            if (me.vars.clingingReady) {
+                                                me.width = -Math.abs(me.width)
+                                                me.vars.jump = true
+                                                me.vars.jumpDir = -1
+                                                me.vars.jumpTime = 0
+                                            }
+                                            keyPressed = true
+                                        }
+                                        if (inputs.right && me.width < 0) {
+                                            if (me.vars.clingingReady) {
+                                                me.width = Math.abs(me.width)
+                                                me.vars.jump = true
+                                                me.vars.jumpDir = 1
+                                                me.vars.jumpTime = 0
+                                            }
+                                            keyPressed = true
+                                        }
+                                        if (inputs.up) {
+                                            if (me.vars.clingingReady && (! me.vars.sliding)) {
+                                                me.vars.jump = true
+                                                me.vars.jumpDir = 0
+                                                me.vars.jumpTime = 0
+                                            }
+                                            keyPressed = true
+                                        }
+                                        if (! keyPressed) {
+                                            me.vars.clingingReady = true
+                                        }
+                                    }
+
+                                    if (me.vars.jump) {
+                                        if (me.vars.jumpDir == -1) {
+                                            if (inputs.left && me.vars.jumpTime <= 0.1) {
+                                                me.vars.jumpTime += 1 / 60
+                                            }
+                                            else {
+                                                me.vars.vel.x -= me.vars.jumpTime * 10
+                                                me.vars.vel.y -= me.vars.jumpTime * 50
+
+                                                me.width = -Math.abs(me.width)
+                                                me.vars.clinging = false
+                                                var direction = 1
+                                                if (me.width < 0) {
+                                                    direction = -1
+                                                }
+                                                me.switch("Ninja_Idle")
+                                                me.setScale(3)
+                                                me.width *= direction
+
+                                                me.vars.jump = false
+                                            }
+                                        }
+                                        else {
+                                            if (me.vars.jumpDir == 1) {
+                                                if (inputs.right && me.vars.jumpTime <= 0.1) {
+                                                    me.vars.jumpTime += 1 / 60
+                                                }
+                                                else {
+                                                    me.vars.vel.x += me.vars.jumpTime * 10
+                                                    me.vars.vel.y -= me.vars.jumpTime * 50
+
+                                                    me.vars.clinging = false
+                                                    var direction = 1
+                                                    if (me.width < 0) {
+                                                        direction = -1
+                                                    }
+                                                    me.switch("Ninja_Idle")
+                                                    me.setScale(3)
+                                                    me.width *= direction
+
+                                                    me.vars.jump = false
+                                                }
+                                            }
+                                            else {
+                                                if (me.vars.jumpDir == 0) {
+                                                    if (inputs.up && me.vars.jumpTime <= 0.1) {
+                                                        me.vars.jumpTime += 1 / 60
+                                                    }
+                                                    else {
+                                                        if (me.width > 0) {
+                                                            me.vars.vel.x += me.vars.jumpTime * 20
+                                                        }
+                                                        else {
+                                                            me.vars.vel.x -= me.vars.jumpTime * 20
+                                                        }
+                                                        me.vars.vel.y -= me.vars.jumpTime * 50
+
+                                                        me.vars.clinging = false
+                                                        var direction = 1
+                                                        if (me.width < 0) {
+                                                            direction = -1
+                                                        }
+                                                        me.switch("Ninja_Idle")
+                                                        me.setScale(3)
+                                                        me.width *= direction
+
+                                                        me.vars.jump = false
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                if (inputs.right) {
-                                    me.vars.vel.x += 0.3
+                                else {
+                                    if (inputs.left || inputs.leftSmall) {
+                                        if (inputs.left) {
+                                            me.vars.vel.x -= 0.2
+                                        }
+                                        else {
+                                            me.vars.vel.x -= 0.1
+                                        }
 
-                                    me.width = Math.abs(me.width)
+                                        me.width = -Math.abs(me.width)
+                                    }
+                                    if (inputs.right || inputs.rightSmall) {
+                                        if (inputs.right) {
+                                            me.vars.vel.x += 0.2
+                                        }
+                                        else {
+                                            me.vars.vel.x += 0.1
+                                        }
+
+                                        me.width = Math.abs(me.width)
+                                    }
+                                    if (Math.abs(me.vars.vel.x) > 0.5) {
+                                        me.vars.walkFrame += (Math.ceil(Math.abs(me.vars.vel.x) / 10) / 5)
+
+                                        if ([0, 3].includes(Math.round(me.vars.walkFrame))) {
+                                            if (onGround) {
+                                                BeginningJS.methods.playSound("Footsteps_Concrete")
+                                            }
+                                            else {
+                                                BeginningJS.methods.playSound("Woosh")
+                                            }
+                                        }
+                                        if (me.vars.walkFrame != 0) {
+                                            me.vars.walkFrame %= 6
+                                        }
+                                        var direction = 1
+                                        if (me.width < 0) {
+                                            direction = -1
+                                        }
+                                        me.switch("Ninja_Walk_" + Math.floor(me.vars.walkFrame))
+                                        me.setScale(3)
+                                        me.width *= direction
+                                    }
+                                    else {
+                                        if (me.vars.walkFrame != 0) {
+                                            var direction = 1
+                                            if (me.width < 0) {
+                                                direction = -1
+                                            }
+                                            me.switch("Ninja_Idle")
+                                            me.setScale(3)
+                                            me.width *= direction
+
+                                            me.vars.walkFrame = 0
+                                        }
+                                    }
+
+                                    if (onGround) {
+                                        /*
+                                        if (me.vars.jump) {
+                                            if (inputs.up && me.vars.jumpTime <= 0.1) {
+                                                me.vars.jumpTime += 1 / 60
+                                            }
+                                            else {
+                                                me.vars.vel.y -= me.vars.jumpTime * 50
+                                                me.vars.jump = false
+                                            }
+                                        }
+                                        else {
+                                            if (inputs.up) {
+                                                BeginningJS.methods.playSound("Jump")
+                                                me.vars.jump = true
+                                                me.vars.jumpTime = 0
+                                            }
+                                        }
+                                        */
+                                        if (inputs.up && (! me.vars.jump)) {
+                                            me.vars.jump = true
+                                            me.vars.vel.y -= 5
+                                        }
+                                    }
+                                    else {
+                                        /*
+                                        if (me.vars.jumpTime > 0.05) {
+                                            if (me.vars.jumpTime <= 0.1) {
+                                                me.vars.jumpTime += 1 / 60
+                                                if (inputs.up) {
+                                                    me.vars.vel.y -= 0.5
+                                                }
+                                            }
+                                        }
+                                        */
+                                    }
+                                    if (! inputs.up) {
+                                        me.vars.jump = false
+                                    }
+
+                                    if (Math.abs(me.vars.vel.x) < 1) {
+                                        if (inputs.down || inputs.downSmall) {
+                                            if (me.vars.duckDir == 0) {
+                                                BeginningJS.methods.playSound("Woosh")
+                                                if (me.vars.duckFrame > 0) {
+                                                    me.vars.duckFrame = 5
+                                                    me.vars.duckDir = -1
+                                                }
+                                                else {
+                                                    me.vars.duckFrame = 0
+                                                    me.vars.duckDir = 1
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                if (onGround) {
-                                    if (inputs.up) {
-                                        me.vars.vel.y -= 3
+                                if (me.vars.duckDir != 0) {
+                                    me.vars.duckTick--
+                                    if (me.vars.duckTick < 0) {
+                                        var direction = 1
+                                        if (me.width < 0) {
+                                            direction = -1
+                                        }
+                                        if (me.vars.duckFrame <= 0 && me.vars.duckDir < 0) {
+                                            me.switch("Ninja_Idle")
+                                            me.vars.duckDir = 0
+                                        }
+                                        else {
+                                            me.switch("Ninja_Duck_" + me.vars.duckFrame)
+                                        }
+                                        me.setScale(3)
+                                        me.width *= direction
+
+                                        me.vars.duckFrame += me.vars.duckDir
+
+                                        if (me.vars.duckFrame > 5) {
+                                            me.vars.duckDir = 0
+                                        }
+                                        me.vars.duckTick = 2
                                     }
                                 }
 
+                                if (me.vars.y > 25) {
+                                    me.vars = {
+                                        "x": 12,
+                                        "y": 5,
+                                        "vel": {
+                                            "x": 0,
+                                            "y": 0
+                                        },
+                                        "clinging": false,
+                                        "sliding": false,
+                                        "clingingReady": false,
+                                        "jump": false,
+                                        "jumpTime": 0,
+                                        "jumpDir": 0,
+                                        "walkFrame": 0,
+                                        "duckFrame": -1,
+                                        "duckDir": 0,
+                                        "duckTick": 0
+                                    }
+                                }
+
+
                                 // Camera
 
-                                var cameraSpeed = 5
+                                var cameraSpeed = 20
                                 var cameraYOffset = 50
 
                                 if (Math.abs(me.x - (Game.width / 2)) > 0) {
-                                    if (Math.floor(Math.abs(me.x - (Game.width / 2))) >= 5) {
+                                    if (Math.floor(Math.abs(me.x - (Game.width / 2))) >= 2) {
                                         if (me.x > Game.width / 2) {
                                             Game.vars.camera.x += Math.ceil((me.x - (Game.width / 2)) / cameraSpeed)
                                         }
@@ -565,7 +1061,7 @@ Game = BeginningJS.init({
                                     }
                                 }
                                 if (Math.abs(me.y - ((Game.height / 2) - cameraYOffset)) > 0) {
-                                    if (Math.floor(Math.abs(me.y - ((Game.height / 2) + cameraYOffset))) >= 5) {
+                                    if (Math.floor(Math.abs(me.y - ((Game.height / 2) + cameraYOffset))) >= 2) {
                                         if (me.y > ((Game.height / 2) - cameraYOffset)) {
                                             Game.vars.camera.y += Math.ceil((me.y - ((Game.height / 2) + cameraYOffset)) / cameraSpeed)
                                         }

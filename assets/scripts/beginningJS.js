@@ -581,7 +581,7 @@ BeginningJS = {
                 "space": 32,
                 "w": 87,
                 "a": 65,
-                "s": 91,
+                "s": 83,
                 "d": 68
             },
             "joysticks": {}
@@ -851,6 +851,8 @@ BeginningJS = {
                                                         //me.x = Math.max(Math.min(me.x, me.vars.circle.x + (me.vars.circle.width / 2)), me.vars.circle.x - (me.vars.circle.width / 2))
                                                         //me.y = Math.max(Math.min(me.y, me.vars.circle.y + (me.vars.circle.height / 2)), me.vars.circle.y - (me.vars.circle.height / 2))
 
+                                                        var prefix = ""
+
                                                         var distance = Math.abs(me.x - me.vars.circle.x) + Math.abs(me.y - me.vars.circle.y)
                                                         if (distance > me.vars.circle.width / 2) {
                                                             var direction = BeginningJS.methods.maths.getDirection(me.vars.circle.x, me.vars.circle.y, me.x, me.y) // TODO
@@ -860,22 +862,25 @@ BeginningJS = {
 
                                                             me.move(me.vars.circle.width / 2, direction)
                                                         }
+                                                        else {
+                                                            prefix += "~"
+                                                        }
 
                                                         var offsetX = me.x - me.vars.circle.x
                                                         var offsetY = me.y - me.vars.circle.y
 
                                                         var inputs = []
                                                         if (offsetX < -(me.width / 2)) {
-                                                            inputs.push("left")
+                                                            inputs.push(prefix + "left")
                                                         }
                                                         if (offsetX > me.width / 2) {
-                                                            inputs.push("right")
+                                                            inputs.push(prefix + "right")
                                                         }
                                                         if (offsetY < -(me.height / 2)) {
-                                                            inputs.push("up")
+                                                            inputs.push(prefix + "up")
                                                         }
                                                         if (offsetY > me.height / 2) {
-                                                            inputs.push("down")
+                                                            inputs.push(prefix + "down")
                                                         }
                                                         gameRef.input.joysticks[me.vars.id] = inputs
                                                     }
@@ -2230,8 +2235,8 @@ BeginningJS = {
 
                 var rad = BeginningJS.methods.maths.degToRad(angle)
 
-                me.x += Math.sin(rad) * distance
-                me.y += Math.cos(rad) * distance
+                me.x += Math.cos(rad) * distance
+                me.y += Math.sin(rad) * distance
             }
             sprite.clone = function(inputCloneData) {
                 var spriteWas = BeginningJS.internal.current.sprite
@@ -2286,6 +2291,35 @@ BeginningJS = {
 
 
                 return newSprite
+            }
+            sprite.switch = function(imgID) {
+                var me = this
+                var game = me.game
+                // What if it's not run as a sprite? TODO
+
+                if (game.internal.assets.imgs[imgID] == null) {
+                    console.error("Oops. You tried to switch the image of the sprite with the ID " + me.id + " to an image with the ID of " + imgID + ".")
+                    console.error("Beginning.js hit a critical error, have a look at the error abovr for more info.")
+                    debugger
+                }
+
+                me.img = imgID
+                var asset = game.internal.assets.imgs[imgID]
+                me.width = asset.img.width
+                me.height = asset.img.height
+            }
+            sprite.setScale = function(x, y) {
+                var me = this
+
+                if (y == null) {
+                    me.width *= x
+                    me.height *= x
+                }
+                else {
+                    me.width *= x
+                    me.height *= y
+                }
+
             }
 
             return sprite
@@ -2798,6 +2832,7 @@ BeginningJS = {
         "playSound": function(id) {
             // TODO: Test for game
             // TODO: Test for ID
+            // TODO: game.methods.playSound
 
             var game = BeginningJS.internal.current.game
 
