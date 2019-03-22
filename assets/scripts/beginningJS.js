@@ -666,22 +666,22 @@ BeginningJS = {
                                     "description": "The src for the joystick."
                                 },
                                 "x": {
-                                    "default": game.width - 100,
+                                    "default": game.width - 150,
                                     "types": ["number"],
                                     "description": "The x position of the circle."
                                 },
                                 "y": {
-                                    "default": game.height - 100,
+                                    "default": game.height - 150,
                                     "types": ["number"],
                                     "description": "The y position of the circle."
                                 },
                                 "width": {
-                                    "default": 100,
+                                    "default": 150,
                                     "types": ["number"],
                                     "description": "The width of the circle."
                                 },
                                 "height": {
-                                    "default": 100,
+                                    "default": 150,
                                     "types": ["number"],
                                     "description": "The height of the circle."
                                 }
@@ -1169,11 +1169,14 @@ BeginningJS = {
                 this.onerror()
 
             }
-            img.src = game.game.assets.imgs[i].src
             game.internal.assets.loading++
             game.internal.assets.imgs[game.game.assets.imgs[i].id] = {
                 "img": img
             }
+        }
+
+        if (document.readyState == "complete") {
+            BeginningJS.internal.loadImages()
         }
 
         var i = 0
@@ -1315,7 +1318,7 @@ BeginningJS = {
             debugger
         }
         else {
-            if (game.game.scripts.preload == "function") {
+            if (typeof game.game.scripts.preload == "function") {
                 game.game.scripts.preload(game)
             }
         }
@@ -2779,7 +2782,30 @@ BeginningJS = {
                 }
                 setTimeout(BeginningJS.internal.testAutoPlay, 0)
             }
-        }
+        },
+        "loadImages": function() {
+            var i = 0
+            for (i in BeginningJS.internal.games) {
+                var game = BeginningJS.internal.games[i]
+
+                var keys = Object.keys(game.internal.assets.imgs)
+                var c = 0
+                while (c < keys.length) {
+                    var img = game.internal.assets.imgs[keys[c]].img
+
+                    img.src = game.game.assets.imgs[c].src
+                    c++
+                }
+            }
+        },
+        "onPageReady": function() {
+            BeginningJS.internal.loadImages()
+        },
+        "onDocReadyStateChange": document.addEventListener("readystatechange", function() {
+            if (document.readyState == "complete") {
+                BeginningJS.internal.onPageReady()
+            }
+        })
     },
     "methods": {
         "get": {

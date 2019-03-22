@@ -2,6 +2,12 @@
     Wretched Destroyer Kevin MacLeod (incompetech.com)
     Licensed under Creative Commons: By Attribution 3.0 License
     http://creativecommons.org/licenses/by/3.0/
+
+== Main menu music ==
+    https://freesound.org/people/Andrewkn/sounds/455855/
+
+== Text sound ==
+    https://freesound.org/people/EdEditz/sounds/416999/
 == Footsteps ==
     https://freesound.org/people/swuing/
 == Boing ==
