@@ -18,11 +18,13 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-// These match the IDs in vars.tiles.dark around L1406
-const GRASS = 1;
-const GROUND = 2;
-const SKY = 6;
-const SIGN = 7;
+consts = {
+    // These match the IDs in vars.tiles.dark around L1406
+    GRASS: 1,
+    GROUND: 2,
+    SKY: 6,
+    SIGN: 7
+};
 
 BeginningJS.config.flags.useQTrees = false // Not working at the moment
 Game = BeginningJS.init({
@@ -337,19 +339,19 @@ Game = BeginningJS.init({
                         "-25,-14": { // Sky
                             "width": 75,
                             "height": 24,
-                            "tile": SKY,
+                            "tile": consts.SKY,
                             "layer": 0
                         },
                         "-25,10": { // Grass
                             "width": 75,
                             "height": 1,
-                            "tile": GRASS,
+                            "tile": consts.GRASS,
                             "layer": 0
                         },
                         "-25,11": { // Ground
                             "width": 125,
                             "height": 3,
-                            "tile": GROUND,
+                            "tile": consts.GROUND,
                             "layer": 0
                         },
                         "-25,14": {
