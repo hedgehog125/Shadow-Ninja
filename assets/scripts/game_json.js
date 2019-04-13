@@ -386,6 +386,48 @@ Game = BeginningJS.init({
                             "height": 1,
                             "tile": 7,
                             "layer": 0
+                        },
+                        "20,10": {
+                            "width": 1,
+                            "height": 1,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "23,9": {
+                            "width": 1,
+                            "height": 2,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "26,8": {
+                            "width": 1,
+                            "height": 3,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "29,6": {
+                            "width": 1,
+                            "height": 5,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "32,4": {
+                            "width": 1,
+                            "height": 7,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "35,1": {
+                            "width": 1,
+                            "height": 10,
+                            "tile": 3,
+                            "layer": 0
+                        },
+                        "38,1": {
+                            "width": 1,
+                            "height": 8,
+                            "tile": 3,
+                            "layer": 0
                         }
                     },
                     "scale": 25
@@ -692,7 +734,7 @@ Game = BeginningJS.init({
                                     var xTile = Math.round(me.vars.x + 0.6)
                                     var tile = tiles[[xTile, yTile].toString()]
 
-                                    if (me.vars.vel.x > 0) {
+                                    if (Math.abs(me.vars.vel.x) > 0) {
                                         if (tile != null) {
                                             if (! Game.vars.tiles.transparent.includes(tile.tile)) {
                                                 cling = true
@@ -775,10 +817,10 @@ Game = BeginningJS.init({
                                     }
 
                                     if (me.vars.onGround) {
-                                        me.vars.vel.x *= 0.93
+                                        me.vars.vel.x *= 0.9
                                     }
                                     else {
-                                        me.vars.vel.x *= 0.96
+                                        me.vars.vel.x *= 0.95
                                     }
                                     me.vars.vel.y *= 0.93
 
