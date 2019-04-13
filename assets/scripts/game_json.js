@@ -339,103 +339,103 @@ Game = BeginningJS.init({
                         "-25,-14": { // Sky
                             "width": 75,
                             "height": 24,
-                            "tile": consts.SKY,
+                            "tile": "sky",
                             "layer": 0
                         },
                         "-25,10": { // Grass
                             "width": 75,
                             "height": 1,
-                            "tile": consts.GRASS,
+                            "tile": "grass",
                             "layer": 0
                         },
                         "-25,11": { // Ground
                             "width": 125,
                             "height": 3,
-                            "tile": consts.GROUND,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "-25,14": {
                             "width": 75,
                             "height": 41,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "-10,8": {
                             "width": 20,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "-1,-4": {
                             "width": 1,
                             "height": 10,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "2,-4": {
                             "width": 1,
                             "height": 10,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "2,-5": {
                             "width": 5,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "-10,-5": {
                             "width": 10,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "12,10": {
                             "width": 1,
                             "height": 1,
-                            "tile": 7,
+                            "tile": "sign",
                             "layer": 0
                         },
                         "20,10": {
                             "width": 1,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "23,9": {
                             "width": 1,
                             "height": 2,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "26,8": {
                             "width": 1,
                             "height": 3,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "29,6": {
                             "width": 1,
                             "height": 5,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "32,4": {
                             "width": 1,
                             "height": 7,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "35,1": {
                             "width": 1,
                             "height": 10,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         },
                         "38,1": {
                             "width": 1,
                             "height": 8,
-                            "tile": 3,
+                            "tile": "tile3",
                             "layer": 0
                         }
                     },
@@ -1402,18 +1402,18 @@ Game = BeginningJS.init({
         },
         "tiles": {
             "transparent": [
-                1,
-                6,
-                7
+                "grass",
+                "sky",
+                "sign"
             ],
             "dark": {
-                1: "Tile_Dark_Grass",
-                2: "Tile_Dark_Tile",
-                3: "Tile_Dark_Tile",
-                4: "Tile_Dark_Tile",
-                5: "Tile_Dark_Tile",
-                6: "Tile_Dark_Sky",
-                7: "Tile_Dark_Sign"
+                grass: "Tile_Dark_Grass",
+                ground: "Tile_Dark_Tile",
+                tile3: "Tile_Dark_Tile",
+                tile4: "Tile_Dark_Tile",
+                tile5: "Tile_Dark_Tile",
+                sky: "Tile_Dark_Sky",
+                sign: "Tile_Dark_Sign"
             }
         }
     },
