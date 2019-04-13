@@ -18,14 +18,6 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-consts = {
-    // These match the IDs in vars.tiles.dark around L1406
-    GRASS: 1,
-    GROUND: 2,
-    SKY: 6,
-    SIGN: 7
-};
-
 BeginningJS.config.flags.useQTrees = false // Not working at the moment
 Game = BeginningJS.init({
     "game": {
@@ -1407,13 +1399,13 @@ Game = BeginningJS.init({
                 "sign"
             ],
             "dark": {
-                grass: "Tile_Dark_Grass",
-                ground: "Tile_Dark_Tile",
-                tile3: "Tile_Dark_Tile",
-                tile4: "Tile_Dark_Tile",
-                tile5: "Tile_Dark_Tile",
-                sky: "Tile_Dark_Sky",
-                sign: "Tile_Dark_Sign"
+                "grass": "Tile_Dark_Grass",
+                "ground": "Tile_Dark_Tile",
+                "tile3": "Tile_Dark_Tile",
+                "tile4": "Tile_Dark_Tile",
+                "tile5": "Tile_Dark_Tile",
+                "sky": "Tile_Dark_Sky",
+                "sign": "Tile_Dark_Sign"
             }
         }
     },
