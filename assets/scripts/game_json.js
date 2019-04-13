@@ -18,6 +18,12 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
+// These match the IDs in vars.tiles.dark around L1406
+const GRASS = 1;
+const GROUND = 2;
+const SKY = 6;
+const SIGN = 7;
+
 BeginningJS.config.flags.useQTrees = false // Not working at the moment
 Game = BeginningJS.init({
     "game": {
@@ -327,22 +333,23 @@ Game = BeginningJS.init({
                 },
                 "vars": {
                     "world": {
-                        "-25,-14": {
+                        // Co-ords: x: -25 to 50? y: -14 to 41?
+                        "-25,-14": { // Sky
                             "width": 75,
                             "height": 24,
-                            "tile": 6,
+                            "tile": SKY,
                             "layer": 0
                         },
-                        "-25,10": {
+                        "-25,10": { // Grass
                             "width": 75,
                             "height": 1,
-                            "tile": 1,
+                            "tile": GRASS,
                             "layer": 0
                         },
-                        "-25,11": {
+                        "-25,11": { // Ground
                             "width": 125,
                             "height": 3,
-                            "tile": 2,
+                            "tile": GROUND,
                             "layer": 0
                         },
                         "-25,14": {
