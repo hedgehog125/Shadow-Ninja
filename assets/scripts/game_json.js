@@ -332,19 +332,19 @@ Game = BeginningJS.init({
                 "vars": {
                     "world": {
                         // Co-ords: x: -25 to 50? y: -14 to 41?
-                        "-25,-14": { // Sky
+                        "-25,-14": { 
                             "width": 75,
                             "height": 24,
                             "tile": "sky",
                             "layer": 0
                         },
-                        "-25,10": { // Grass
+                        "-25,10": { 
                             "width": 75,
                             "height": 1,
                             "tile": "grass",
                             "layer": 0
                         },
-                        "-25,11": { // Ground
+                        "-25,11": { 
                             "width": 125,
                             "height": 3,
                             "tile": "ground",
@@ -439,7 +439,53 @@ Game = BeginningJS.init({
                             "height": 8,
                             "tile": "ground",
                             "layer": 0
-                        }
+                        },
+                        
+                        // Lava bowl
+                        "10,4": {
+                            "width": 12,
+                            "height": 1,
+                            "tile": "lava",
+                            "layer": 0
+                        },
+                        "9,5": {
+                            "width": 14,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },
+                        "9,2": {
+                            "width": 1,
+                            "height": 3,
+                            "tile": "ground",
+                            "layer": 0
+                        },
+                        "22,2": {
+                            "width": 1,
+                            "height": 3,
+                            "tile": "ground",
+                            "layer": 0
+                        },
+                        // Steps
+                        "6,5": {
+                            "width": 2,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },                                   
+                        "13,2": {
+                            "width": 2,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },                                   
+                        "18,2": {
+                            "width": 2,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },                                   
+                        
                     },
                     "scale": 25
                 },
