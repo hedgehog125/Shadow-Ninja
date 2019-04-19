@@ -78,78 +78,78 @@ Game = BeginningJS.init({
                 // Take out
                 {
                     "id": "Ninja_Takeout_0",
-                    "src": "assets/imgs/ninja/take_out/takeout_0.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_0.png"
                 },
                 {
                     "id": "Ninja_Takeout_1",
-                    "src": "assets/imgs/ninja/take_out/takeout_1.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_1.png"
                 },
                 {
                     "id": "Ninja_Takeout_2",
-                    "src": "assets/imgs/ninja/take_out/takeout_2.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_2.png"
                 },
                 {
                     "id": "Ninja_Takeout_3",
-                    "src": "assets/imgs/ninja/take_out/takeout_3.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_3.png"
                 },
                 {
                     "id": "Ninja_Takeout_4",
-                    "src": "assets/imgs/ninja/take_out/takeout_4.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_4.png"
                 },
                 {
                     "id": "Ninja_Takeout_5",
-                    "src": "assets/imgs/ninja/take_out/takeout_5.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_5.png"
                 },
                 {
                     "id": "Ninja_Takeout_6",
-                    "src": "assets/imgs/ninja/take_out/takeout_5.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_5.png"
                 },
                 {
                     "id": "Ninja_Takeout_7",
-                    "src": "assets/imgs/ninja/take_out/takeout_7.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_7.png"
                 },
                 {
                     "id": "Ninja_Takeout_8",
-                    "src": "assets/imgs/ninja/take_out/takeout_8.png"
+                    "src": "assets/imgs/ninja/take_out_katana/takeout_8.png"
                 },
 
                 // Put away
 
                 {
                     "id": "Ninja_Putaway_0",
-                    "src": "assets/imgs/ninja/put_away/putaway_0.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_0.png"
                 },
                 {
                     "id": "Ninja_Putaway_1",
-                    "src": "assets/imgs/ninja/put_away/putaway_1.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_1.png"
                 },
                 {
                     "id": "Ninja_Putaway_2",
-                    "src": "assets/imgs/ninja/put_away/putaway_2.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_2.png"
                 },
                 {
                     "id": "Ninja_Putaway_3",
-                    "src": "assets/imgs/ninja/put_away/putaway_3.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_3.png"
                 },
                 {
                     "id": "Ninja_Putaway_4",
-                    "src": "assets/imgs/ninja/put_away/putaway_4.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_4.png"
                 },
                 {
                     "id": "Ninja_Putaway_5",
-                    "src": "assets/imgs/ninja/put_away/putaway_5.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_5.png"
                 },
                 {
                     "id": "Ninja_Putaway_6",
-                    "src": "assets/imgs/ninja/put_away/putaway_6.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_6.png"
                 },
                 {
                     "id": "Ninja_Putaway_7",
-                    "src": "assets/imgs/ninja/put_away/putaway_7.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_7.png"
                 },
                 {
                     "id": "Ninja_Putaway_8",
-                    "src": "assets/imgs/ninja/put_away/putaway_8.png"
+                    "src": "assets/imgs/ninja/put_away_katana/putaway_8.png"
                 },
 
                 // Walk
@@ -609,10 +609,12 @@ Game = BeginningJS.init({
                                     me.vars.duckDir = 0
                                     me.vars.duckTick = 0
                                     me.vars.wallJumpPause = false
+                                    me.vars.wallJumpKeys = {}
                                     me.vars.climbing = false
                                     me.vars.climbingDir = 0
                                     me.vars.climbYWas = 0
                                     me.vars.crawlFrame = 0
+                                    me.vars.inputs = {}
 
                                     if (resetCamera) {
                                         Game.vars.camera.x = 0
@@ -799,6 +801,7 @@ Game = BeginningJS.init({
                                             me.vars.clinging = true
                                             me.vars.jump = false
                                             me.vars.wallJumpPause = true
+                                            me.vars.wallJumpKeys = JSON.parse(JSON.stringify(me.vars.inputs))
                                             me.vars.clingingReady = false
                                             if (me.width > 0) {
                                                 me.vars.clingDir = 1
@@ -867,6 +870,8 @@ Game = BeginningJS.init({
                                     if (Game.input.keys.isDown(Game.input.lookup.s)) {
                                         inputs.down = true
                                     }
+
+                                    me.vars.inputs = inputs
 
                                     if (me.vars.clinging) {
                                         if (me.vars.climbing) {
@@ -1108,9 +1113,10 @@ Game = BeginningJS.init({
                                             }
                                         }
 
-
-                                        if (! (inputs.left || inputs.right || inputs.down || inputs.up)) {
+                                        me.vars.wallJumpPause = false // Temporary solution
+                                        if ((! (inputs.left || inputs.right || inputs.down || inputs.up)) || JSON.stringify(inputs) != JSON.stringify(me.vars.wallJumpKeys)) {
                                             me.vars.wallJumpPause = false
+                                            me.vars.wallJumpKeys = {}
                                         }
                                     }
                                     else {
@@ -1243,20 +1249,22 @@ Game = BeginningJS.init({
                                                     BeginningJS.methods.playSound("Woosh")
                                                 }
                                                 me.vars.jump = true
-                                                me.vars.vel.y -= 5
+                                                me.vars.vel.y -= 4
+                                                me.vars.jumpTime = 0
                                             }
                                         }
                                         else {
-                                            /*
-                                            if (me.vars.jumpTime > 0.05) {
-                                                if (me.vars.jumpTime <= 0.1) {
-                                                    me.vars.jumpTime += 1 / 60
-                                                    if (inputs.up) {
-                                                        me.vars.vel.y -= 0.5
+                                            if (me.vars.jump) {
+                                                if (inputs.up) {
+                                                    if (me.vars.jumpTime < 0.3) {
+                                                        me.vars.jumpTime += 1 / 60
+                                                        me.vars.vel.y -= 0.35
                                                     }
                                                 }
+                                                else {
+                                                    me.vars.jumpTime = Math.max(me.vars.jumpTime, 0.3)
+                                                }
                                             }
-                                            */
                                         }
                                         if (! inputs.up) {
                                             me.vars.jump = false
