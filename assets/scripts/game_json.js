@@ -57,6 +57,10 @@ Game = BeginningJS.init({
                     "src": "assets/imgs/tiles/dark/Tile.png"
                 },
                 {
+                    "id": "Tile_Dark_Lava",
+                    "src": "assets/imgs/tiles/dark/Lava.png"
+                },
+                {
                     "id": "Tile_Dark_Grass",
                     "src": "assets/imgs/tiles/dark/Grass.png"
                 },
@@ -327,108 +331,161 @@ Game = BeginningJS.init({
                 },
                 "vars": {
                     "world": {
-                        "-25,-14": {
+                        // Co-ords: x: -25 to 50? y: -14 to 41?
+                        "-25,-14": { 
                             "width": 75,
                             "height": 24,
-                            "tile": 6,
+                            "tile": "sky",
                             "layer": 0
                         },
-                        "-25,10": {
+                        "-25,10": { 
                             "width": 75,
                             "height": 1,
-                            "tile": 1,
+                            "tile": "grass",
                             "layer": 0
                         },
-                        "-25,11": {
+                        "-25,11": { 
                             "width": 125,
                             "height": 3,
-                            "tile": 2,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "-25,14": {
                             "width": 75,
                             "height": 41,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "-10,8": {
                             "width": 20,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "-1,-4": {
                             "width": 1,
                             "height": 10,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "2,-4": {
                             "width": 1,
                             "height": 10,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "2,-5": {
                             "width": 5,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "-10,-5": {
                             "width": 10,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "12,10": {
                             "width": 1,
                             "height": 1,
-                            "tile": 7,
+                            "tile": "sign",
+                            "layer": 0
+                        },
+                        "14,10": {
+                            "width": 1,
+                            "height": 1,
+                            "tile": "lava",
                             "layer": 0
                         },
                         "20,10": {
                             "width": 1,
                             "height": 1,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "23,9": {
                             "width": 1,
                             "height": 2,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "26,8": {
                             "width": 1,
                             "height": 3,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "29,6": {
                             "width": 1,
                             "height": 5,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "32,4": {
                             "width": 1,
                             "height": 7,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "35,1": {
                             "width": 1,
                             "height": 10,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
                         },
                         "38,1": {
                             "width": 1,
                             "height": 8,
-                            "tile": 3,
+                            "tile": "ground",
                             "layer": 0
-                        }
+                        },
+                        
+                        // Lava bowl
+                        "10,4": {
+                            "width": 12,
+                            "height": 1,
+                            "tile": "lava",
+                            "layer": 0
+                        },
+                        "9,5": {
+                            "width": 14,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },
+                        "9,2": {
+                            "width": 1,
+                            "height": 3,
+                            "tile": "ground",
+                            "layer": 0
+                        },
+                        "22,2": {
+                            "width": 1,
+                            "height": 3,
+                            "tile": "ground",
+                            "layer": 0
+                        },
+                        // Steps
+                        "6,5": {
+                            "width": 2,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },                                   
+                        "13,2": {
+                            "width": 2,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },                                   
+                        "18,2": {
+                            "width": 2,
+                            "height": 1,
+                            "tile": "ground",
+                            "layer": 0
+                        },                                   
+                        
                     },
                     "scale": 25
                 },
@@ -1401,18 +1458,18 @@ Game = BeginningJS.init({
         },
         "tiles": {
             "transparent": [
-                1,
-                6,
-                7
+                "grass",
+                "sky",
+                "sign"
             ],
             "dark": {
-                1: "Tile_Dark_Grass",
-                2: "Tile_Dark_Tile",
-                3: "Tile_Dark_Tile",
-                4: "Tile_Dark_Tile",
-                5: "Tile_Dark_Tile",
-                6: "Tile_Dark_Sky",
-                7: "Tile_Dark_Sign"
+                "grass": "Tile_Dark_Grass",
+                "ground": "Tile_Dark_Tile",
+                "lava": "Tile_Dark_Lava",
+                "tile4": "Tile_Dark_Tile",
+                "tile5": "Tile_Dark_Tile",
+                "sky": "Tile_Dark_Sky",
+                "sign": "Tile_Dark_Sign"
             }
         }
     },
